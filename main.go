@@ -136,6 +136,31 @@ func dynamicArray(n int32, queries [][]int32) []int32 {
 	return result
 }
 
+func rotateLeft(d int32, arr []int32) []int32 {
+	tempArr := arr
+
+	for i := 0; i < int(d); i++ {
+		firstItem := tempArr[0]
+		tempArr = append(tempArr[1:], firstItem)
+	}
+
+	return tempArr
+}
+
+func matchingStrings(stringList []string, queries []string) []int32 {
+	results := make([]int32, len(queries))
+
+	for _, str := range stringList {
+		for index, query := range queries {
+			if query == str {
+				results[index] += 1
+			}
+		}
+	}
+
+	return results
+}
+
 func main() {
 	//arrDiagonalDiff := [][]int32{
 	//	{1, 2, 3},
@@ -164,13 +189,24 @@ func main() {
 	//
 	//fmt.Println(hourglassSum(matrix))
 
-	matrix := [][]int32{
-		{1, 0, 5},
-		{1, 1, 7},
-		{1, 0, 3},
-		{2, 1, 0},
-		{2, 1, 1},
-	}
+	//matrix := [][]int32{
+	//	{1, 0, 5},
+	//	{1, 1, 7},
+	//	{1, 0, 3},
+	//	{2, 1, 0},
+	//	{2, 1, 1},
+	//}
+	//
+	//fmt.Println(dynamicArray(6, matrix))
 
-	fmt.Println(dynamicArray(6, matrix))
+	//arr := []int32{
+	//	1, 2, 3, 4, 5,
+	//}
+	//
+	//fmt.Println(rotateLeft(54, arr))
+
+	stringList := []string{"aba", "baba", "aba", "xzxb"}
+	queries := []string{"aba", "xzxb", "ab"}
+
+	fmt.Println(matchingStrings(stringList, queries))
 }
