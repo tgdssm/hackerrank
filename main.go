@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -161,6 +162,104 @@ func matchingStrings(stringList []string, queries []string) []int32 {
 	return results
 }
 
+func miniMaxSum(arr []int32) {
+	// MINHA SOLUÇÃO ANTES DE PESQUISAR
+
+	//var mini, maxSum float64
+	//var bigger int32
+	//var smaller int32 = math.MaxInt32
+	//arrCopy := make([]int32, len(arr))
+	//copy(arrCopy, arr)
+	//
+	//arrMini, arrMax := make([]int32, 0), make([]int32, 0)
+	//
+	//var biggerIndex, smallerIndex int
+	//lastIndex := len(arr) - 1
+	//
+	//for index, num := range arr {
+	//	if num > bigger {
+	//		bigger = num
+	//		biggerIndex = index
+	//	}
+	//
+	//	if smaller > num {
+	//		smaller = num
+	//		smallerIndex = index
+	//	}
+	//}
+	//
+	//if biggerIndex == lastIndex {
+	//	arrMini = append([]int32{}, arrCopy[:biggerIndex]...)
+	//} else {
+	//	arrMini = append(arrCopy[:biggerIndex], arrCopy[biggerIndex+1:]...)
+	//}
+	//
+	//for _, num := range arrMini {
+	//	mini += float64(num)
+	//}
+	//
+	//if smallerIndex == lastIndex {
+	//	arrMax = append([]int32{}, arr[:smallerIndex]...)
+	//} else {
+	//	arrMax = append(arr[:smallerIndex], arr[smallerIndex+1:]...)
+	//}
+	//
+	//for _, num := range arrMax {
+	//	maxSum += float64(num)
+	//}
+	//
+	//fmt.Printf("%0.f %0.f", mini, maxSum)
+
+	// SOLUÇÃO FINAL
+	var mini, maxSum int64
+
+	sort.Slice(arr, func(i, j int) bool {
+		return arr[i] < arr[j]
+	})
+
+	for i := 0; i < len(arr)-1; i++ {
+		mini += int64(arr[i])
+		maxSum += int64(arr[i+1])
+	}
+
+	fmt.Println(mini, maxSum)
+
+}
+
+func birthdayCakeCandles(candles []int32) int32 {
+	sort.Slice(candles, func(i, j int) bool {
+		return candles[j] < candles[i]
+	})
+
+	tallestCandle := candles[0]
+	var total int32
+
+	for _, candle := range candles {
+		if candle == tallestCandle {
+			total += 1
+		}
+	}
+
+	return total
+}
+
+func timeConversion(s string) string {
+	format := s[8:]
+	hours, minutes, seconds := s[:2], s[3:5], s[6:8]
+
+	if hours == "12" && format == "AM" {
+		hours = "00"
+	} else if hours != "12" && format == "PM" {
+		parse, err := strconv.Atoi(hours)
+		if err != nil {
+			panic(err)
+		}
+		hours = strconv.Itoa(parse + 12)
+	}
+	fmt.Println(minutes, seconds)
+	return fmt.Sprintf("%s:%s:%s", hours, minutes, seconds)
+}
+
 func main() {
 	//arrDiagonalDiff := [][]int32{
 	//	{1, 2, 3},
@@ -205,8 +304,19 @@ func main() {
 	//
 	//fmt.Println(rotateLeft(54, arr))
 
-	stringList := []string{"aba", "baba", "aba", "xzxb"}
-	queries := []string{"aba", "xzxb", "ab"}
+	//stringList := []string{"aba", "baba", "aba", "xzxb"}
+	//queries := []string{"aba", "xzxb", "ab"}
+	//
+	//fmt.Println(matchingStrings(stringList, queries))
 
-	fmt.Println(matchingStrings(stringList, queries))
+	//arr := []int32{396285104, 573261094, 759641832, 819230764, 364801279}
+	//
+	//miniMaxSum(arr)
+
+	//arr := []int32{3, 2, 1, 3}
+	//
+	//fmt.Println(birthdayCakeCandles(arr))
+
+	str := "08:01:00PM"
+	fmt.Println(timeConversion(str))
 }
