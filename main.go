@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"sort"
 	"strconv"
 	"strings"
@@ -96,24 +97,24 @@ func reverseArray(a []int32) []int32 {
 	return reverse
 }
 
-//func hourglassSum(arr [][]int32) int32 {
-//	maxSum := math.Inf(-1)
-//
-//	for line := 0; line < 4; line++ {
-//		for column := 0; column < 4; column++ {
-//			top := arr[line][column] + arr[line][column+1] + arr[line][column+2]
-//			mid := arr[line+1][column+1]
-//			bottom := arr[line+2][column] + arr[line+2][column+1] + arr[line+2][column+2]
-//			sum := float64(top + mid + bottom)
-//
-//			if sum > maxSum {
-//				maxSum = sum
-//			}
-//		}
-//	}
-//
-//	return int32(maxSum)
-//}
+func hourglassSum(arr [][]int32) int32 {
+	maxSum := math.Inf(-1)
+
+	for line := 0; line < 4; line++ {
+		for column := 0; column < 4; column++ {
+			top := arr[line][column] + arr[line][column+1] + arr[line][column+2]
+			mid := arr[line+1][column+1]
+			bottom := arr[line+2][column] + arr[line+2][column+1] + arr[line+2][column+2]
+			sum := float64(top + mid + bottom)
+
+			if sum > maxSum {
+				maxSum = sum
+			}
+		}
+	}
+
+	return int32(maxSum)
+}
 
 func dynamicArray(n int32, queries [][]int32) []int32 {
 	var lastAns int32
@@ -260,6 +261,108 @@ func timeConversion(s string) string {
 	return fmt.Sprintf("%s:%s:%s", hours, minutes, seconds)
 }
 
+func gradingStudents(grades []int32) []int32 {
+	// IMPLEMENTAÇÃO ANTES DE PESQUISAR
+	//results := make([]int32, 0)
+	//
+	//for _, grade := range grades {
+	//	var recalculated int32
+	//	fmt.Println(grade)
+	//	if grade >= 38 {
+	//		if grade%5 == 0 {
+	//			recalculated = grade
+	//
+	//		} else if multiple := grade + 1; multiple%5 == 0 {
+	//			recalculated = multiple
+	//		} else if multiple = grade + 2; multiple%5 == 0 {
+	//			recalculated = multiple
+	//		} else {
+	//			recalculated = grade
+	//
+	//		}
+	//	} else {
+	//		recalculated = grade
+	//	}
+	//
+	//	results = append(results, recalculated)
+	//}
+	//
+	//return results
+
+	// APÓS
+	for i, grade := range grades {
+		if grade < 38 {
+			continue
+		}
+
+		nextMultiple := (grade + 4) / 5 * 5
+
+		if nextMultiple-grade < 3 {
+			grades[i] = nextMultiple
+		}
+	}
+
+	return grades
+}
+
+func countApplesAndOranges(s int32, t int32, a int32, b int32, apples []int32, oranges []int32) {
+	var countApples, countOranges int32
+
+	for _, apple := range apples {
+		if applePosition := a + apple; applePosition >= s && applePosition <= t {
+			countApples += 1
+		}
+	}
+
+	for _, orange := range oranges {
+		if orangePosition := b + orange; orangePosition >= s && orangePosition <= t {
+			countOranges += 1
+		}
+	}
+
+	fmt.Println(countApples)
+	fmt.Println(countOranges)
+
+}
+
+func fizzBuzz(n int32) {
+
+	for i := 1; i <= int(n); i++ {
+		fiveMultiple := i%5 == 0
+		threeMultiple := i%3 == 0
+		if fiveMultiple && threeMultiple {
+			fmt.Println("FizzBuzz")
+		} else if threeMultiple {
+			fmt.Println("Fizz")
+		} else if fiveMultiple {
+			fmt.Println("Buzz")
+		} else {
+			fmt.Println(i)
+		}
+	}
+}
+
+func kangaroo(x1 int32, v1 int32, x2 int32, v2 int32) string {
+
+	if (v1 > v2) && (x1-x2)%(v2-v1) == 0 {
+		return "YES"
+	}
+
+	return "NO"
+}
+
+func countBits(num uint32) int32 {
+	var bitsSet int32
+	str := strconv.FormatInt(int64(num), 2)
+	for _, char := range str {
+		if char == 49 {
+			bitsSet += 1
+		}
+	}
+
+	return bitsSet
+}
+
 func main() {
 	//arrDiagonalDiff := [][]int32{
 	//	{1, 2, 3},
@@ -317,6 +420,19 @@ func main() {
 	//
 	//fmt.Println(birthdayCakeCandles(arr))
 
-	str := "08:01:00PM"
-	fmt.Println(timeConversion(str))
+	//str := "08:01:00PM"
+	//fmt.Println(timeConversion(str))
+
+	//arr := []int32{73, 67, 38, 33}
+	//
+	//fmt.Println(gradingStudents(arr))
+
+	//var s, t, a, b int32 = 2, 3, 1, 5
+	//apples, oranges := []int32{2}, []int32{-2}
+	//countApplesAndOranges(s, t, a, b, apples, oranges)
+	//fizzBuzz(15)
+
+	//fmt.Println(kangaroo(14, 4, 98, 2))
+
+	fmt.Println(countBits(126))
 }
